@@ -12,11 +12,15 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import django_heroku
-#import dj_database_url
+import dj_database_url
+import dotenv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -80,7 +84,7 @@ WSGI_APPLICATION = 'pydjblog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 '''
-DATABASES['default'] = dj_database_url.config(default='postgres://...')'''
+DATABASES['default'] = dj_database_url.config(default='postgres://...')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -88,7 +92,9 @@ DATABASES = {
     }
 }
 
-
+'''
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -143,3 +149,4 @@ EMAIL_HOST_USER = 'sohelmira28@gmail.com'
 EMAIL_HOST_PASSWORD = 'Shivani.mane0209@gmail.com'
 
 django_heroku.settings(locals())
+del DATABASES['default']['OPTIONS']['sslmode']
